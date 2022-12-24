@@ -64,7 +64,6 @@ public sealed class SnakeBehaviour : Plugin
 
     #endregion
 
-
     #region Constants
 
     public static string BehaviourName = "SnakeMovement";
@@ -99,7 +98,7 @@ public sealed class SnakeBehaviour : Plugin
 
     #region Events
 
-    public EventHandler<SnakeGameResult> GameOver { get; set; }
+    public EventHandler<float> GameOver { get; set; }
     public EventHandler<int> ScoreChanged { get; set; }
 
     #endregion
@@ -113,18 +112,13 @@ public sealed class SnakeBehaviour : Plugin
                Walls.Any(b => b.CollidesWith(SnakeHead));
     }
 
-    public SnakeGameResult GetGameResult()
-    {
-        return new SnakeGameResult(Score, Moves);
-    }
-
-    public SnakeGameResult Result { get; set; }
+    public float Fitness => (Score + 1) * (Score + 1) +
+                        (float)Moves / SnakeGameConfig.LifeTime;
 
     private void EndGame()
     {
-        Result = GetGameResult();
         Running = false;
-        GameOver?.Invoke(this, GetGameResult());
+        GameOver?.Invoke(this, Fitness);
     }
 
     public void Reset()

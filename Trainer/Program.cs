@@ -10,7 +10,6 @@ using Trainer.Infrastructure;
 // Create a type registrar and register any dependencies.
 // A type registrar is an adapter for a DI framework.
 var services = new ServiceCollection();
-
 // Services
 services.AddTransient<IWeightGenerator, WeightGenerator>();
 services.AddTransient<IBiasGenerator, BiasGenerator>();
@@ -18,8 +17,8 @@ services.AddTransient<IActivationFunction, Tanh>();
 services.AddTransient<INeuralNetworkIo>(_ => new FileNetworkIo("./network.json"));
 services.AddTransient<INetworkMutator, NetworkMutator>();
 services.AddTransient<IFloatMutator, FloatMutator>();
-services.AddTransient<IMutationDecider>(_ => new MutationDecider(0.02f));
-services.AddTransient<Evolution>();
+services.AddTransient<IMutationDecider>(_ => new MutationDecider(0.002f));
+services.AddTransient<NetworkTrainer>();
 
 services.AddLogging(b => b
     .AddFilter("Microsoft", LogLevel.Warning)

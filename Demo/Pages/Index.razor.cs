@@ -104,7 +104,7 @@ public class IndexBase : ComponentBase
         IsAiEnabled = true;
     }
 
-    private void GameOver(object? sender, SnakeGameResult e)
+    private void GameOver(object? sender, float e)
     {
         SnakeGame.Reset();
     }

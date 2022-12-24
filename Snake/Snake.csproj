@@ -11,8 +11,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Aptacode.AppFramework" Version="1.1.0" />
-		<PackageReference Include="NeuralSharp" Version="1.0.11" />
+		<PackageReference Include="Aptacode.AppFramework" Version="1.1.1" />
+		<PackageReference Include="NeuralSharp" Version="1.1.3" />
 	</ItemGroup>
 
 </Project>

@@ -7,6 +7,7 @@ using Aptacode.AppFramework.Components;
 using Aptacode.Geometry.Primitives;
 using NeuralSharp;
 using NeuralSharp.Activation;
+using NeuralSharp.Generators;
 using NeuralSharp.Genetic;
 using Snake;
 using Snake.Behaviours;
@@ -19,14 +20,16 @@ namespace Trainer.Commands;
 internal sealed class
     Test3Command : Command<Test3Command.Settings>
 {
+    private readonly IWeightGenerator _weightGenerator;
+    private readonly IBiasGenerator _biasGenerator;
     private readonly IActivationFunction _activationFunction;
-    private readonly Evolution _evolution;
-    private readonly INeuralNetworkIo _networkIo;
+    private readonly NetworkTrainer _evolution;
 
-    public Test3Command(IActivationFunction activationFunction, INeuralNetworkIo networkIo, Evolution evolution)
+    public Test3Command(IWeightGenerator w, IBiasGenerator b, IActivationFunction activationFunction, NetworkTrainer evolution)
     {
+        this._weightGenerator = w;
+        this._biasGenerator = b;
         _activationFunction = activationFunction;
-        _networkIo = networkIo;
         _evolution = evolution;
     }
 
@@ -43,9 +46,22 @@ internal sealed class
 
     public async Task Run()
     {
-        var network = await _networkIo.Load();
-        var evolutionConfig = new EvolutionConfig(1000, 300, 10);
-        await _evolution.Run(network, evolutionConfig, Run);
+        var layers = new int[] { 24, 32, 24, 4 };
+        var fileName = $"network_{string.Join("_", layers)}.json";
+        var fileNetwork = new FileNetworkIo(fileName);
+        var networkConfig = await fileNetwork.Load();
+        NeuralNetwork network;
+        if (networkConfig != null)
+        {
+            network = new NeuralNetwork(networkConfig);
+        }
+        else
+        {
+            network = new NeuralNetwork(_weightGenerator, _biasGenerator, layers);
+        }
+
+        var evolutionConfig = new NetworkTrainerConfig(10000, 100, 20);
+        await _evolution.Run(network, evolutionConfig, Run, fileNetwork);
     }
 
     public float Run(NeuralNetwork network)
@@ -58,7 +74,7 @@ internal sealed class
             game.Handle(100);
         }
 
-        return behaviour.Result.Fitness;
+        return behaviour.Fitness;
     }
 
     public Scene CreateGame(NeuralNetwork network)
