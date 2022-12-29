@@ -1,6 +1,16 @@
 ﻿@page "/"
 
 @inherits IndexBase
-<input @bind="@IsAiEnabled" type="checkbox"/> Use AI<br/>
 
-<SceneView Scene="Scene"/>
+@if (Loading)
+{
+
+}
+else
+{
+    <input @bind="@Scene.IsAiEnabled" type="checkbox"/>
+
+    <SceneView Width=600 Height=600 Scene=@Scene>
+        <canvas width="600" height="600"></canvas>
+    </SceneView>
+}

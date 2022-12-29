@@ -103,7 +103,7 @@ public class SnakeAIControl : Plugin
         var foodFound = false;
         var bodyFound = false;
         // Food / body cannot be ontop of current position
-        var pos = _snakeBehaviour.SnakeHead.Primitive.BoundingRectangle.Center + direction;
+        var pos = _snakeBehaviour.SnakeHead.TransformedPrimitive.GetCentroid() + direction;
         var distance = 1; // min distance = 1
 
         while (!WallCollide(pos))

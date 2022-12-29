@@ -5,9 +5,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Aptacode.AppFramework" Version="1.1.1" />
+		<PackageReference Include="Aptacode.AppFramework" Version="1.2.0" />
 		<PackageReference Include="Aptacode.BlazorCanvas" Version="1.1.7" />
-		<PackageReference Include="Aptacode.Geometry" Version="1.1.1" />
+		<PackageReference Include="Aptacode.Geometry" Version="1.2.3" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.1" PrivateAssets="all" />
 		<PackageReference Include="NeuralSharp" Version="1.1.3" />
